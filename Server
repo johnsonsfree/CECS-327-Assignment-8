@@ -1,0 +1,22 @@
+import socket
+def run_server():
+ip_address = "35.223.41.201" # Accept connections on all network interfaces
+port_number = 6789
+# Create a TCP/IP socket
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+sock.bind((ip_address, port_number))
+sock.listen(1)
+print(f"Server is active and listening on port {port_number}...")
+client_socket, client_address = sock.accept()
+with client_socket:
+print(f"Connection established with {client_address}")
+while True:
+received_data = client_socket.recv(1024)
+if not received_data:
+break
+message = received_data.decode()
+print(f"Message received: {message}")
+response = message.upper().encode()
+client_socket.sendall(response)
+if __name__ == "__main__":
+run_server()
