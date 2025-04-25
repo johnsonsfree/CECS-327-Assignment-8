@@ -1,19 +1,30 @@
 import socket
-def initiate_client():
-# Replace these with your server's external IP and port number
-host = '35.223.41.201' # Use the actual external IP of your server
-port_number = 12345 # Use the port number your server is listening on
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+
+# Prompt for server IP and port
+server_ip = input("Enter the server IP (use the EXTERNAL IP of the server VM): ")
+port = int(input("Enter port (e.g., 12345): "))  # Must match the server's port
+
+# Create a TCP socket
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Connect to the server
 try:
-sock.connect((host, port_number))
+    client_socket.connect((server_ip, port))
+    print(f"Connected to {server_ip}:{port}")
+except Exception as e:
+    print(f"Failed to connect: {e}")
+    exit()
+
+# Messaging loop
 while True:
-user_input = input("Type your message (or 'exit' to close): ")
-if user_input.strip().lower() == 'exit':
-break
-sock.sendall(user_input.encode())
-reply = sock.recv(1024)
-print(f"Response from server: {reply.decode()}")
-except (socket.error, ValueError) as err:
-print(f"Connection failed: {err}")
-if __name__ == "__main__":
-initiate_client()
+    message = input("Enter message (or 'exit' to quit): ")
+    if message.lower() == "exit":
+        break
+    client_socket.sendall(message.encode())
+    
+    # Receive and display the server's response
+    data = client_socket.recv(1024)
+    print(f"Server replied: {data.decode()}")
+
+client_socket.close()
+print("Connection closed.")
