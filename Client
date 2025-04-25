@@ -1,0 +1,19 @@
+import socket
+def initiate_client():
+# Replace these with your server's external IP and port number
+host = '35.223.41.201' # Use the actual external IP of your server
+port_number = 12345 # Use the port number your server is listening on
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+try:
+sock.connect((host, port_number))
+while True:
+user_input = input("Type your message (or 'exit' to close): ")
+if user_input.strip().lower() == 'exit':
+break
+sock.sendall(user_input.encode())
+reply = sock.recv(1024)
+print(f"Response from server: {reply.decode()}")
+except (socket.error, ValueError) as err:
+print(f"Connection failed: {err}")
+if __name__ == "__main__":
+initiate_client()
