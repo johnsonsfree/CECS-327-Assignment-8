@@ -1,7 +1,7 @@
 import socket
 
-#queries
-Queries = [
+# List of valid queries
+queries = [
     "What is the average moisture inside my kitchen fridge in the past three hours?",
     "What is the average water consumption per cycle in my smart dishwasher?",
     "Which device consumed more electricity among my three IoT devices (two refrigerators and a dishwasher)?"
@@ -25,24 +25,26 @@ except Exception as e:
 # User options
 print("\nWelcome to the Smart IoT Query System!")
 print("You can ask one of the following questions:")
-for i, query in enumerate(VALID_QUERIES, 1):
+for i, query in enumerate(queries, 1):
     print(f"{i}. {query}")
 print("Type 'exit' to quit.\n")
 
 # Messaging loop
 while True:
-    message = input("Enter message (or 'exit' to quit): ")
+    message = input("Enter your query (or 'exit' to quit): ")
     if message.lower() == "exit":
         break
-    if message in Queries:
+
+    if message in queries:
         client_socket.sendall(message.encode())
         data = client_socket.recv(1024)
         print(f"\nServer replied: {data.decode()}\n")
     else:
         print("\nSorry, this query cannot be processed. Please try one of the following:")
-        for i, query in enumerate(Queries, 1):
+        for i, query in enumerate(queries, 1):
             print(f"{i}. {query}")
         print()
 
 client_socket.close()
 print("Connection closed.")
+
