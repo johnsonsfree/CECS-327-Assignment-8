@@ -14,3 +14,6 @@ The client file has changes such as three valid loT queries, showing the results
 -Establish a connection between client and server file. 
 -Enter one of the valid queries, and once the query is sent there will be a response back. 
 -Once you get the response, you can type "exit" to exit. 
+
+#Server File
+The server file is the most important file because here is where we have our connection established with our client file and also our metadata. It should be able to understand and reply back to a valid query, and if it is not valid, then a error response must show. We also implemented an "exit" system. Conversions will be shown here for the unit of measurements for our device sensors. 
